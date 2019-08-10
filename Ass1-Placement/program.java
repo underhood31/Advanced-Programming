@@ -15,6 +15,7 @@ class Student{
     private int rollno;
     private TechnicalMarks[] technicalMarks = new TechnicalMarks[1000];
     private boolean placed;
+    private String companyEnrolled;
     Student(float cgpa,String branch){
         this.rollno = count++;
         unplacedStudents=unplacedStudents+1;
@@ -35,7 +36,8 @@ class Student{
   
    
     public static void delPlacedStudents(ArrayList<Student> stud){
-   
+        
+        System.out.println("Deleting placed students: ");
         ArrayList<Student> toDel= new ArrayList<Student>();
 
         Iterator<Student> itr=stud.iterator();  
@@ -61,13 +63,24 @@ class Student{
     public boolean isPlaced(){
         return this.placed;
     }
-    public void placeMe(){
+    public void placeMe(String company){
         this.placed=true;
+        this.companyEnrolled = company;
         Student.placedStudents+=1;
         Student.unplacedStudents-=1;
     }
     public int getRollno(){
         return this.rollno;
+    }
+    public void printDetails(){
+        System.out.println("Roll no: " + this.rollno);
+        System.out.println("CGPA: " + this.cgpa);
+        System.out.println("Course: "+ this.branch);
+        System.out.println("Is placed? : "+ this.placed);
+        if(this.placed){
+            System.out.println("Company placed in: "+ this.companyEnrolled);
+        }
+        
     }
    
 
@@ -120,10 +133,10 @@ class Company{
 
         System.out.println("Number of students req: " + this.numStudents);
         if(this.applicationOpen){
-            System.out.println("The aplications are OPEN");
+            System.out.println("The applications are OPEN");
         }
         else{
-            System.out.println("The aplications are CLOSED");
+            System.out.println("The applications are CLOSED");
         }
 
     }
@@ -141,7 +154,7 @@ class Company{
     }
 
     //---------non-static functions-------
-    private void selectStudents(){
+    public void placeStudents(ArrayList<Student> studs){
 
     }
     public boolean isApplicationOpen() {
@@ -175,7 +188,7 @@ class program{
                 String branch = s[1];
                 allStudents.add(new Student(cgpa,branch));
             }
-            System.out.println(Student.totalSudents());
+            // System.out.println(Student.totalSudents());
 
 
             while(Student.getUnplacedStudents()>0){
@@ -197,12 +210,14 @@ class program{
                         s = br.readLine().trim().split("\\s+");
                         int CnumOfstudents = Integer.parseInt(s[0]);
                         Company Ctemp = new Company(Cname, courses, CnumOfstudents);
-                        companies.add(Ctemp);
                         Ctemp.printDetails();
+                        // TODO: input marks of the eligible student
+                        companies.add(Ctemp);
+                        
                         break;
                     case 2:
                         Student Stemp = allStudents.get(0);
-                        Stemp.placeMe();
+                        Stemp.placeMe("abc");
                         allStudents.set(0,Stemp);
                         Student.delPlacedStudents(allStudents);
                         break;
@@ -223,17 +238,23 @@ class program{
                         System.out.println("Enter company name: ");
                         s = br.readLine().trim().split("\\s+");
                         String compName = s[0];
-                        // TODO: Imlement logic
+                        Iterator<Company> itrC = companies.iterator();
+                        while(itrC.hasNext()){
+                            Company tmp= itrC.next();
+                            if(tmp.getName()==compName){
+                                tmp.placeStudents(allStudents);
+                                break;
+                            }
+                        }
                         break;
                     case 7:
                         System.out.println("Enter company name to print details: ");
-                        s = br.readLine().trim().split("\\s+");
-                        String compDetName = s[0];
+                        String compDetName = s[1];
                         
                         try {
-                            Iterator<Company> itr = companies.iterator();
-                            while(itr.hasNext()){
-                                Company temp = itr.next();
+                            Iterator<Company> itrCN = companies.iterator();
+                            while(itrCN.hasNext()){
+                                Company temp = itrCN.next();
                                 if(temp.getName()==compDetName){
                                     temp.printDetails();
                                     break;
@@ -245,11 +266,11 @@ class program{
                         break;
                     case 8:
                         System.out.println("Enter company name to print details: ");
-                        s = br.readLine().trim().split("\\s+");
-                        int rNoDet = Integer.parseInt(s[0]);
+                        // s = br.readLine().trim().split("\\s+");
+                        int rNoDet = Integer.parseInt(s[1]);
                         try {
                             Student toPrint = allStudents.get(rNoDet);
-                            // TODO: implement print functiom
+                            toPrint.printDetails();
                         } catch (Exception e) {
                             System.out.println("Invalid input");                            
                         }
