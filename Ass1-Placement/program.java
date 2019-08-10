@@ -32,6 +32,7 @@ class Student{
     public static int getUnplacedStudents(){
         return unplacedStudents;
     }
+  
    
     public static void delPlacedStudents(ArrayList<Student> stud){
    
@@ -111,11 +112,35 @@ class Company{
     }
 
     public void printDetails(){
-        
+        System.out.println("Company name: " + this.name);
+        System.out.println("Courses: ");
+        for(int i=0; i<this.courseCriterion.length; ++i){
+            System.out.println("\t"+courseCriterion[i]);
+        }
+
+        System.out.println("Number of students req: " + this.numStudents);
+        if(this.applicationOpen){
+            System.out.println("The aplications are OPEN");
+        }
+        else{
+            System.out.println("The aplications are CLOSED");
+        }
+
     }
     public static int totalCompanies(){
         return count;
     }
+    public static void openCompanies(ArrayList<Company> comp){
+        Iterator<Company> itr = comp.iterator();
+        while(itr.hasNext()){  
+            Company temp = itr.next();
+            if(temp.isApplicationOpen()){
+                System.out.println(temp.getName());
+            }
+        } 
+    }
+
+    //---------non-static functions-------
     private void selectStudents(){
 
     }
@@ -188,19 +213,46 @@ class program{
                         Company.delFullCompanies(companies);
                         break;
                     case 4:
-                        //code
+                        System.out.println("Number of unplaced students: " + Student.getUnplacedStudents());
                         break;
                     case 5:
-                        //code
+                        System.out.println("Open companies: ");
+                        Company.openCompanies(companies);
                         break;
                     case 6:
-                        //code
+                        System.out.println("Enter company name: ");
+                        s = br.readLine().trim().split("\\s+");
+                        String compName = s[0];
+                        // TODO: Imlement logic
                         break;
                     case 7:
-                        //code
+                        System.out.println("Enter company name to print details: ");
+                        s = br.readLine().trim().split("\\s+");
+                        String compDetName = s[0];
+                        
+                        try {
+                            Iterator<Company> itr = companies.iterator();
+                            while(itr.hasNext()){
+                                Company temp = itr.next();
+                                if(temp.getName()==compDetName){
+                                    temp.printDetails();
+                                    break;
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Invalid input");
+                        }
                         break;
                     case 8:
-                        //code
+                        System.out.println("Enter company name to print details: ");
+                        s = br.readLine().trim().split("\\s+");
+                        int rNoDet = Integer.parseInt(s[0]);
+                        try {
+                            Student toPrint = allStudents.get(rNoDet);
+                            // TODO: implement print functiom
+                        } catch (Exception e) {
+                            System.out.println("Invalid input");                            
+                        }
                         break;
                     case 9:
                         //code
