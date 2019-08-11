@@ -253,7 +253,7 @@ class Company{
         
         while (itr.hasNext()) {
             Student temp = itr.next();
-            if(temp.getTechnicalMarks().containsKey(this.name)){
+            if(temp.getTechnicalMarks().containsKey(this.name) && !temp.isPlaced()){
                 int rno = temp.getRollno();
                 float marks = temp.getTechnicalMarks().get(this.name);
                 float cgpa = temp.getCgpa();
