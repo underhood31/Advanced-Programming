@@ -1,11 +1,10 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-class TechnicalMarks{
-    String company;
-    float marks;
-}
+import java.util.Hashtable;
+import java.util.Set;
+import java.util.Collections;
+import java.util.Comparator;
 class Student{
     private static int count=0;
     private static int placedStudents=0;
@@ -13,7 +12,7 @@ class Student{
     private float cgpa;
     private String branch;
     private int rollno;
-    private TechnicalMarks[] technicalMarks = new TechnicalMarks[1000];
+    private Hashtable<String,Float> technicalMarks = new Hashtable<String,Float>(); 
     private boolean placed;
     private String companyEnrolled;
     Student(float cgpa,String branch){
@@ -37,7 +36,6 @@ class Student{
    
     public static void delPlacedStudents(ArrayList<Student> stud){
         
-        System.out.println("Deleting placed students: ");
         ArrayList<Student> toDel= new ArrayList<Student>();
 
         Iterator<Student> itr=stud.iterator();  
@@ -53,7 +51,7 @@ class Student{
             Student temp = itr2.next();
             
             System.out.println(temp.getRollno());
-            stud.remove(stud.indexOf(temp));
+            stud.set(stud.indexOf(temp), null);
             --Student.count;
             --Student.placedStudents;
             
@@ -72,20 +70,85 @@ class Student{
     public int getRollno(){
         return this.rollno;
     }
+    public String getBranch(){
+        return this.branch;
+    }
+    public float getCgpa(){
+        return this.cgpa;
+    }
+    public Hashtable<String,Float> getTechnicalMarks(){
+        return this.technicalMarks;
+    }
+    public void companyAndMarks(){
+        if(!this.technicalMarks.isEmpty()){
+            System.out.println("Technical round marks: ");
+            Set<String> keys = technicalMarks.keySet();
+            Iterator<String> itr= keys.iterator();
+            while (itr.hasNext()) {
+                String k = itr.next();
+                System.out.println("Company: " + k + "  Score: " + technicalMarks.get(k));
+            } 
+        }
+    }
     public void printDetails(){
         System.out.println("Roll no: " + this.rollno);
         System.out.println("CGPA: " + this.cgpa);
         System.out.println("Course: "+ this.branch);
         System.out.println("Is placed? : "+ this.placed);
+        this.companyAndMarks();
         if(this.placed){
             System.out.println("Company placed in: "+ this.companyEnrolled);
         }
         
     }
-   
+   public void addMarks(String compName, float marks){
+        this.technicalMarks.put(compName,marks);
+   }
 
 }
+class TechnicalMarks{
+    private int rollNo;
+    private float marks;
+    private float cgpa;
 
+    TechnicalMarks(int rno, float marks, float cgpa){
+        this.rollNo = rno;
+        this.marks = marks;
+        this.cgpa = cgpa;
+    }
+    public float getMarks(){
+        return this.marks;
+    }
+    public float getCgpa(){
+        return this.cgpa;
+    }
+    public int getRollno(){
+        return rollNo;
+    }
+
+}
+class SortbyMarks implements Comparator<TechnicalMarks> 
+{ 
+  
+    public int compare(TechnicalMarks a, TechnicalMarks b) 
+    { 
+        if(a.getMarks()>b.getMarks()){
+            return -1;
+        } 
+        else if(a.getMarks()<b.getMarks()){
+            return 1;
+        }
+        else{
+            if(a.getCgpa()>b.getCgpa()){
+                return -1;
+            } 
+            else if(a.getCgpa()<b.getCgpa()){
+                return 1;
+            }
+        }
+        return -1;
+    } 
+} 
 class Company{
     private static int count =0;
 
@@ -102,7 +165,7 @@ class Company{
         applicationOpen=true;
         count+=1;
     }
-    //----------Static functions
+    //----------Static functions---------
     public static void delFullCompanies(ArrayList<Company> compn){
    
         ArrayList<Company> toDel= new ArrayList<Company>();
@@ -154,8 +217,25 @@ class Company{
     }
 
     //---------non-static functions-------
-    public void placeStudents(ArrayList<Student> studs){
-
+    public void giveMarks(ArrayList<Student> studs) throws IOException{
+        Iterator<Student> itr = studs.iterator();
+        while(itr.hasNext()){
+            Student temp = itr.next();
+            boolean eligible = false;
+            for(int i=0;i<this.courseCriterion.length;++i){
+                if(this.courseCriterion[i].equals(temp.getBranch())){
+                    eligible=true;
+                    break;           
+                }
+            }
+            if(eligible){
+                System.out.print("Enter the score of technical round of roll no. " + temp.getRollno() + " for company "+ this.name+": ");
+                String[] s = program.br.readLine().trim().split("\\s+");
+                float marks = Float.parseFloat(s[0]);
+                temp.addMarks(this.getName(), marks);
+            }
+            
+        }
     }
     public boolean isApplicationOpen() {
         return this.applicationOpen;
@@ -166,13 +246,42 @@ class Company{
     public void complete(){
         this.applicationOpen=false;
     }
+    public void placeStudents(ArrayList<Student> studs){
+        
+        ArrayList<TechnicalMarks> toSelect = new ArrayList<TechnicalMarks>();
+        Iterator<Student> itr = studs.iterator();
+        
+        while (itr.hasNext()) {
+            Student temp = itr.next();
+            if(temp.getTechnicalMarks().containsKey(this.name)){
+                int rno = temp.getRollno();
+                float marks = temp.getTechnicalMarks().get(this.name);
+                float cgpa = temp.getCgpa();
+                TechnicalMarks eligible = new TechnicalMarks(rno, marks, cgpa);
+                toSelect.add(eligible);
+
+            }
+        }
+        toSelect.sort(new SortbyMarks());
+        for(int i=0; i<this.numStudents && i<toSelect.size();++i){
+
+            TechnicalMarks s = toSelect.get(i);
+            studs.get(s.getRollno()).placeMe(this.name);
+            System.out.println("Roll no: "+s.getRollno()+" is placed in "+this.name);
+            
+
+        }
+    this.applicationOpen=false;
+        
+        
+    }
 }
 
 class program{
+    public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+ 
     public static void main(String[] args) throws IOException{
-        // try {
-        
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("[Roll numbers start from 0]");        
             String s[] = br.readLine().trim().split("\\s+") ;
             int nOfStudents = Integer.parseInt(s[0]);
             
@@ -211,20 +320,16 @@ class program{
                         int CnumOfstudents = Integer.parseInt(s[0]);
                         Company Ctemp = new Company(Cname, courses, CnumOfstudents);
                         Ctemp.printDetails();
-                        // TODO: input marks of the eligible student
+                        Ctemp.giveMarks(allStudents);
                         companies.add(Ctemp);
                         
                         break;
                     case 2:
-                        Student Stemp = allStudents.get(0);
-                        Stemp.placeMe("abc");
-                        allStudents.set(0,Stemp);
+                        System.out.println("Deleting placed students: ");
                         Student.delPlacedStudents(allStudents);
                         break;
                     case 3:
-                        Company Cotemp = companies.get(0);
-                        Cotemp.complete();
-                        companies.set(0, Cotemp);
+                        System.out.println("Deleting closed companies: ");
                         Company.delFullCompanies(companies);
                         break;
                     case 4:
@@ -235,27 +340,27 @@ class program{
                         Company.openCompanies(companies);
                         break;
                     case 6:
-                        System.out.println("Enter company name: ");
-                        s = br.readLine().trim().split("\\s+");
-                        String compName = s[0];
+                        String compName = s[1];
                         Iterator<Company> itrC = companies.iterator();
                         while(itrC.hasNext()){
                             Company tmp= itrC.next();
-                            if(tmp.getName()==compName){
-                                tmp.placeStudents(allStudents);
+                            if(tmp.getName().equals(compName)){
+                                if(tmp.isApplicationOpen())
+                                    tmp.placeStudents(allStudents);
+                                else
+                                    System.out.println("Company not open");
                                 break;
                             }
                         }
                         break;
                     case 7:
-                        System.out.println("Enter company name to print details: ");
                         String compDetName = s[1];
                         
                         try {
                             Iterator<Company> itrCN = companies.iterator();
                             while(itrCN.hasNext()){
                                 Company temp = itrCN.next();
-                                if(temp.getName()==compDetName){
+                                if(temp.getName().equals(compDetName)){
                                     temp.printDetails();
                                     break;
                                 }
@@ -265,8 +370,6 @@ class program{
                         }
                         break;
                     case 8:
-                        System.out.println("Enter company name to print details: ");
-                        // s = br.readLine().trim().split("\\s+");
                         int rNoDet = Integer.parseInt(s[1]);
                         try {
                             Student toPrint = allStudents.get(rNoDet);
@@ -276,7 +379,19 @@ class program{
                         }
                         break;
                     case 9:
-                        //code
+                        int rnoCom = Integer.parseInt(s[1]);
+                        try{
+                            Student tempS = allStudents.get(rnoCom);
+                            if(tempS==null){
+                                System.out.println("Roll no not found");
+                            }
+                            else{
+                                tempS.companyAndMarks();
+                            }
+                        }
+                        catch(Exception e){
+                            System.out.println("Roll no not found");
+                        }
                         break;
                    default:
                         System.out.println("Wrong input");
