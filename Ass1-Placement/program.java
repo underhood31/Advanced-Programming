@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Hashtable;
 import java.util.Set;
-import java.util.Collections;
 import java.util.Comparator;
 class Student{
+
     private static int count=0;
     private static int placedStudents=0;
     private static int unplacedStudents=0;
@@ -15,6 +15,7 @@ class Student{
     private Hashtable<String,Float> technicalMarks = new Hashtable<String,Float>(); 
     private boolean placed;
     private String companyEnrolled;
+
     Student(float cgpa,String branch){
         this.rollno = count++;
         unplacedStudents=unplacedStudents+1;
@@ -152,11 +153,10 @@ class SortbyMarks implements Comparator<TechnicalMarks>
 class Company{
     private static int count =0;
 
-    String name;
-    String[] courseCriterion;
-    int numStudents;
-    boolean applicationOpen;
-    Student[] selected = new Student[1000];
+    private String name;
+    private String[] courseCriterion;
+    private int numStudents;
+    private boolean applicationOpen;
 
     Company(String name,String[] courseCriterion, int nOfStudents){
         this.name = name;
@@ -397,10 +397,7 @@ class program{
                         System.out.println("Wrong input");
                 }
             }
-        // }    
-        // catch (Exception e) {
-            // System.out.println("Error:" +e.toString());    
-        // }
+      
     }
     
 }
