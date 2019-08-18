@@ -7,13 +7,7 @@ public interface AppUser{
     public void showMenu();
 
 }
-class Company{
-    private static float money=0;
-    public static void makePurchase(Item item, Merchant merch){
-        money+=(0.01*item.getPrice());
-        merch.add
-    }
-}
+
 class Merchant implements AppUser{
     private static int IDCOUNT=1;
     private String name;
@@ -36,7 +30,7 @@ class Merchant implements AppUser{
         items = new Hashtable<Integer, Item>();
     }
 
-    private void addItem(String n, int q, int p, String c, int off){
+    private void addItem(String n, int q, float p, String c, int off){
         if(items.size()<this.maxItems+this.extraSlots){
             Item temp=new Item(n, q, p, this, c, off);
             this.items.put(temp.getID(), temp);
@@ -113,33 +107,61 @@ class Merchant implements AppUser{
                 case 1:
                     System.out.print("Enter name: ");
                     s=program.br.readLine().trim().split("\\s+");
-                    n=s[0];
+                    String n=s[0];
                     System.out.print("Enter Price: ");
                     s=program.br.readLine().trim().split("\\s+");
-                    p=s[0];
+                    float p=Float.parseFloat(s[0]);
                     System.out.print("Enter Quatity: ");
                     s=program.br.readLine().trim().split("\\s+");
-                    q=s[0];
+                    int q=Integer.parseInt(s[0]);
                     System.out.print("Enter Category: ");
                     s=program.br.readLine().trim().split("\\s+");
-                    c=s[0];
+                    String c=s[0];
                     System.out.print("Enter Offer(0 if none): ");
                     s=program.br.readLine().trim().split("\\s+");
-                    off=Integer.parseInt(s[0]);
+                    int off=Integer.parseInt(s[0]);
                     this.addItem(n, q, p, c, off);
                     break;
                 case 2:
+                    System.out.println("Choose item by code");
+                    items.forEach((k, v) -> { 
+                        System.out.println(k+ " : " +v);
+                    }); 
+                    s=program.br.readLine().trim().split("\\s+");
+                    int itID=Integer.parseInt(s[0]);
+                    
                     System.out.println("Enter Edit Details");
                     System.out.print("New Price: ");
                     s=program.br.readLine().trim().split("\\s+");
-                    off=Integer.parseInt(s[0]);
-                    
+                    float pr=Float.parseFloat(s[0]);
+                    System.out.print("Quantity: ");
+                    s=program.br.readLine().trim().split("\\s+");
+                    int qt=Integer.parseInt(s[0]);
+                    editItem(itID, qt, pr);
                     break;
                 case 3:
+                    Item.printCategories();
+                    s=program.br.readLine().trim().split("\\s+");
+                    String cat = s[0];
+                    Item.printFromCategory(cat);                    
                     break;
                 case 4:
+                    System.out.println("Choose item by code");
+                    items.forEach((k, v) -> { 
+                        System.out.println(k+ " : " +v);
+                    }); 
+                    s=program.br.readLine().trim().split("\\s+");
+                    int itIDForOff=Integer.parseInt(s[0]);
+                    System.out.println("Select offer");
+                    System.out.println("1: Buy 1 get 1 free");
+                    System.out.println("2: 25% off");
+                    s=program.br.readLine().trim().split("\\s+");
+                    int selectedOff=Integer.parseInt(s[0]);
+                    
+                    this.addOffer(itIDforOff, selectedOff);
                     break;
                 case 5:
+                    System.out.println("Reward(extra slots): " + this.extraSlots );
                     break;
                 case 6:
                     going=false;
@@ -206,11 +228,12 @@ class Costumer implements AppUser{
             }
         }
     }
-    public void buy(){
+    public void buy(Item toBuy){
 
     }
     public void listRecentOrders(){
-        for(int i =0;i<10;++i){
+        System.out.println("Order History:");
+        for(int i =0;i<10 && i<orders.size();++i){
             system.out.println(orders.get(i));
         }
     }
@@ -221,6 +244,74 @@ class Costumer implements AppUser{
     @Override
     public void diplayDetails(){
         System.out.println(this);
+    }
+    @Override
+    public void showMenu() {
+        boolean going=true;
+        String s[];
+        int choice;
+        while(going){
+            System.out.println("Welcome " + this.name);
+            System.out.println("Customer Menu");
+            System.out.println("1) Add Item");
+            System.out.println("2) Edit Item");
+            System.out.println("3) Search by category Item");
+            System.out.println("4) Add offer");
+            System.out.println("5) Rewards won");
+
+            s=program.br.readLine().trim().split("\\s+");
+            choice = Integer.parseInt(s[0]);
+
+            switch (choice){
+                case 1:
+                    Item.printCategories();
+                    s=program.br.readLine().trim().split("\\s+");
+                    String cat = s[0];
+                    Item.printFromCategory(cat);  
+                    System.out.print("Enter Item Code: ");
+                    s=program.br.readLine().trim().split("\\s+");
+                    int buyID= Integer.parseInt(s[0]);
+                    Item toBuy = Item.getItem(cat,buyID);
+                    System.out.println("Enter quantity: ");
+                    s=program.br.readLine().trim().split("\\s+");
+                    int qToBuy= Integer.parseInt(s[0]);
+                    System.out.println("Choose Method of transaction");
+                    System.out.println("1) Buy Item");
+                    System.out.println("2) Add to cart");
+                    System.out.println("3) Exit");
+                    s=program.br.readLine().trim().split("\\s+");
+                    int method= Integer.parseInt(s[0]);
+                    switch (method){
+                        case 1:
+                            this.buy(toBuy);
+                            break;
+                        case 2:
+                            this.addToCart(toBuy);
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            System.out.println("Invalid input");
+                            break;
+                    }
+                    break;
+                case 2:
+                    this.checkout();
+                    break;
+                case 3:
+                    System.out.println("Rewards won: " + this.rewardAccount);
+                    break;
+                case 4:
+                    this.listRecentOrders();
+                    break;
+                case 5:
+                    going=false;
+                    break;
+                default:                
+                    System.out.println("Invalid Input");
+                    break;
+            }
+        }
     }
 }
 
@@ -277,10 +368,21 @@ class Item{
         for (int i = 0; i < temp.size(); ++i)  
             System.out.println(temp.get(i));
     }
+    public static Item getItem(String cat, int itemID){
+        ArrayList<Item> temp=  categories.get(cat);
+        Item toRet = null;
+        for (int i = 0; i < temp.size(); ++i){
+            Item itm = temp.get(i);
+            if (itm.getID()==itemID) {
+                toRet = itm;
+            }
+        }  
+        return toRet;
+    }
 
    //-------Non static function
-   public void buyMe(){
-        this.quantity-=1;
+   public void buyMe(int n){
+        this.quantity-=n;
    } 
    public int getQuantity(){
        return this.quantity;
