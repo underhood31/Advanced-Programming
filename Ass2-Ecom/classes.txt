@@ -1,0 +1,9 @@
+
+interface basic usage
+
+
+Costumer  extends basic
+merchent extends basic
+
+
+Item
