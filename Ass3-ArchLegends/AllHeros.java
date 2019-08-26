@@ -33,7 +33,7 @@ class Warrior extends Hero{
     public void takeAttack(float attackValue) {
         if (specialMoves>0) {
             super.takeAttack(attackValue-5);
-            --specialMoves
+            --specialMoves;
         }
         super.takeAttack(attackValue);
     }
@@ -51,7 +51,35 @@ class Mage extends Hero{
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
-    
+    @Override
+    public int specialAttack() {
+        if(specialMoves==0){
+            this.specialMoves=3;
+            return 0;
+        }    
+        else{
+            return -1;
+        }
+
+    }
+
+    @Override
+    public float attack(Monster opponent) {
+        float change =0;
+        if (specialMoves>0) {
+            change = 0.05*opponent.getHP();
+            --specialMoves;    
+        }
+        return super.attack() + change;
+    }
+    @Override
+    public void takeAttack(float attackValue, Monster opponent) {
+        if (specialMoves>0) {
+            opponent.mutateHP(-0.05*opponent.getHP());
+            --specialMoves;
+        }
+        super.takeAttack(attackValue);
+    }
 }
 
 class Theif extends Hero{
@@ -62,7 +90,33 @@ class Theif extends Hero{
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
-    
+    @Override
+    public int specialAttack(Monster opponent) {
+        if(specialMoves==0){
+            this.specialMoves=3;
+            this.mutateHP(0.3*opponent.getHP());
+            opponent.mutateHP(-0.3*opponent.getHP());
+            return 0;
+        }    
+        else{
+            return -1;
+        }
+
+    }
+    @Override
+    public float attack() {
+        if (specialMoves>0) {
+            --specialMoves;    
+        }
+        return super.attack();
+    }
+    @Override
+    public void takeAttack(float attackValue) {
+        if (specialMoves>0) {
+            --specialMoves;
+        }
+        super.takeAttack(attackValue);
+    }
 }
 
 class Healer extends Hero{
@@ -73,5 +127,32 @@ class Healer extends Hero{
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
-    
+    @Override
+    public int specialAttack() {
+        if(specialMoves==0){
+            this.specialMoves=3;
+            return 0;
+        }    
+        else{
+            return -1;
+        }
+
+    }
+
+    @Override
+    public float attack() {
+        if (specialMoves>0) {
+            this.mutateHP(0.05*this.getHP());
+            --specialMoves;    
+        }
+        return super.attack();
+    }
+    @Override
+    public void takeAttack(float attackValue) {
+        if (specialMoves>0) {
+            this.mutateHP(0.05*this.getHP());
+            --specialMoves;
+        }
+        super.takeAttack(attackValue);
+    }
 }
