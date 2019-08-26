@@ -1,0 +1,315 @@
+Compiled from "program.java"
+class program {
+  public static java.io.BufferedReader br;
+
+  program();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]) throws java.io.IOException;
+    Code:
+       0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+       3: ldc           #3                  // String [Roll numbers start from 0]
+       5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       8: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+      11: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+      14: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+      17: ldc           #8                  // String \\s+
+      19: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      22: astore_1
+      23: aload_1
+      24: iconst_0
+      25: aaload
+      26: invokestatic  #10                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+      29: istore_2
+      30: new           #11                 // class java/util/ArrayList
+      33: dup
+      34: invokespecial #12                 // Method java/util/ArrayList."<init>":()V
+      37: astore_3
+      38: new           #11                 // class java/util/ArrayList
+      41: dup
+      42: invokespecial #12                 // Method java/util/ArrayList."<init>":()V
+      45: astore        4
+      47: iconst_0
+      48: istore        5
+      50: iload         5
+      52: iload_2
+      53: if_icmpge     106
+      56: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+      59: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+      62: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+      65: ldc           #8                  // String \\s+
+      67: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      70: astore_1
+      71: aload_1
+      72: iconst_0
+      73: aaload
+      74: invokestatic  #13                 // Method java/lang/Float.parseFloat:(Ljava/lang/String;)F
+      77: fstore        6
+      79: aload_1
+      80: iconst_1
+      81: aaload
+      82: astore        7
+      84: aload_3
+      85: new           #14                 // class Student
+      88: dup
+      89: fload         6
+      91: aload         7
+      93: invokespecial #15                 // Method Student."<init>":(FLjava/lang/String;)V
+      96: invokevirtual #16                 // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+      99: pop
+     100: iinc          5, 1
+     103: goto          50
+     106: invokestatic  #17                 // Method Student.getUnplacedStudents:()I
+     109: ifle          676
+     112: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+     115: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+     118: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+     121: ldc           #8                  // String \\s+
+     123: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     126: astore_1
+     127: aload_1
+     128: iconst_0
+     129: aaload
+     130: invokestatic  #10                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+     133: istore        5
+     135: iload         5
+     137: tableswitch   { // 1 to 9
+                     1: 188
+                     2: 353
+                     3: 368
+                     4: 384
+                     5: 401
+                     6: 417
+                     7: 495
+                     8: 569
+                     9: 609
+               default: 665
+          }
+     188: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+     191: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+     194: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+     197: ldc           #8                  // String \\s+
+     199: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     202: astore_1
+     203: aload_1
+     204: iconst_0
+     205: aaload
+     206: astore        6
+     208: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     211: ldc           #18                 // String Enter number of eligible courses:
+     213: invokevirtual #19                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+     216: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+     219: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+     222: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+     225: ldc           #8                  // String \\s+
+     227: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     230: astore_1
+     231: aload_1
+     232: iconst_0
+     233: aaload
+     234: invokestatic  #10                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+     237: istore        7
+     239: iload         7
+     241: anewarray     #20                 // class java/lang/String
+     244: astore        8
+     246: iconst_0
+     247: istore        9
+     249: iload         9
+     251: iload         7
+     253: if_icmpge     285
+     256: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+     259: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+     262: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+     265: ldc           #8                  // String \\s+
+     267: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     270: astore_1
+     271: aload         8
+     273: iload         9
+     275: aload_1
+     276: iconst_0
+     277: aaload
+     278: aastore
+     279: iinc          9, 1
+     282: goto          249
+     285: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     288: ldc           #21                 // String Students required:
+     290: invokevirtual #19                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+     293: getstatic     #5                  // Field br:Ljava/io/BufferedReader;
+     296: invokevirtual #6                  // Method java/io/BufferedReader.readLine:()Ljava/lang/String;
+     299: invokevirtual #7                  // Method java/lang/String.trim:()Ljava/lang/String;
+     302: ldc           #8                  // String \\s+
+     304: invokevirtual #9                  // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     307: astore_1
+     308: aload_1
+     309: iconst_0
+     310: aaload
+     311: invokestatic  #10                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+     314: istore        9
+     316: new           #22                 // class Company
+     319: dup
+     320: aload         6
+     322: aload         8
+     324: iload         9
+     326: invokespecial #23                 // Method Company."<init>":(Ljava/lang/String;[Ljava/lang/String;I)V
+     329: astore        10
+     331: aload         10
+     333: invokevirtual #24                 // Method Company.printDetails:()V
+     336: aload         10
+     338: aload_3
+     339: invokevirtual #25                 // Method Company.giveMarks:(Ljava/util/ArrayList;)V
+     342: aload         4
+     344: aload         10
+     346: invokevirtual #16                 // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+     349: pop
+     350: goto          673
+     353: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     356: ldc           #26                 // String Deleting placed students:
+     358: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     361: aload_3
+     362: invokestatic  #27                 // Method Student.delPlacedStudents:(Ljava/util/ArrayList;)V
+     365: goto          673
+     368: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     371: ldc           #28                 // String Deleting closed companies:
+     373: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     376: aload         4
+     378: invokestatic  #29                 // Method Company.delFullCompanies:(Ljava/util/ArrayList;)V
+     381: goto          673
+     384: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     387: invokestatic  #17                 // Method Student.getUnplacedStudents:()I
+     390: invokedynamic #30,  0             // InvokeDynamic #0:makeConcatWithConstants:(I)Ljava/lang/String;
+     395: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     398: goto          673
+     401: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     404: ldc           #31                 // String Open companies:
+     406: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     409: aload         4
+     411: invokestatic  #32                 // Method Company.openCompanies:(Ljava/util/ArrayList;)V
+     414: goto          673
+     417: aload_1
+     418: iconst_1
+     419: aaload
+     420: astore        11
+     422: aload         4
+     424: invokevirtual #33                 // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+     427: astore        12
+     429: aload         12
+     431: invokeinterface #34,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+     436: ifeq          673
+     439: aload         12
+     441: invokeinterface #35,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     446: checkcast     #22                 // class Company
+     449: astore        13
+     451: aload         13
+     453: invokevirtual #36                 // Method Company.getName:()Ljava/lang/String;
+     456: aload         11
+     458: invokevirtual #37                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     461: ifeq          492
+     464: aload         13
+     466: invokevirtual #38                 // Method Company.isApplicationOpen:()Z
+     469: ifeq          481
+     472: aload         13
+     474: aload_3
+     475: invokevirtual #39                 // Method Company.placeStudents:(Ljava/util/ArrayList;)V
+     478: goto          673
+     481: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     484: ldc           #40                 // String Company not open
+     486: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     489: goto          673
+     492: goto          429
+     495: aload_1
+     496: iconst_1
+     497: aaload
+     498: astore        13
+     500: aload         4
+     502: invokevirtual #33                 // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+     505: astore        14
+     507: aload         14
+     509: invokeinterface #34,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+     514: ifeq          553
+     517: aload         14
+     519: invokeinterface #35,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     524: checkcast     #22                 // class Company
+     527: astore        15
+     529: aload         15
+     531: invokevirtual #36                 // Method Company.getName:()Ljava/lang/String;
+     534: aload         13
+     536: invokevirtual #37                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     539: ifeq          550
+     542: aload         15
+     544: invokevirtual #24                 // Method Company.printDetails:()V
+     547: goto          553
+     550: goto          507
+     553: goto          673
+     556: astore        14
+     558: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     561: ldc           #42                 // String Invalid input
+     563: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     566: goto          673
+     569: aload_1
+     570: iconst_1
+     571: aaload
+     572: invokestatic  #10                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+     575: istore        14
+     577: aload_3
+     578: iload         14
+     580: invokevirtual #43                 // Method java/util/ArrayList.get:(I)Ljava/lang/Object;
+     583: checkcast     #14                 // class Student
+     586: astore        15
+     588: aload         15
+     590: invokevirtual #44                 // Method Student.printDetails:()V
+     593: goto          673
+     596: astore        15
+     598: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     601: ldc           #42                 // String Invalid input
+     603: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     606: goto          673
+     609: aload_1
+     610: iconst_1
+     611: aaload
+     612: invokestatic  #10                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+     615: istore        15
+     617: aload_3
+     618: iload         15
+     620: invokevirtual #43                 // Method java/util/ArrayList.get:(I)Ljava/lang/Object;
+     623: checkcast     #14                 // class Student
+     626: astore        16
+     628: aload         16
+     630: ifnonnull     644
+     633: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     636: ldc           #45                 // String Roll no not found
+     638: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     641: goto          649
+     644: aload         16
+     646: invokevirtual #46                 // Method Student.companyAndMarks:()V
+     649: goto          673
+     652: astore        16
+     654: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     657: ldc           #45                 // String Roll no not found
+     659: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     662: goto          673
+     665: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+     668: ldc           #47                 // String Wrong input
+     670: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     673: goto          106
+     676: return
+    Exception table:
+       from    to  target type
+         500   553   556   Class java/lang/Exception
+         577   593   596   Class java/lang/Exception
+         617   649   652   Class java/lang/Exception
+
+  static {};
+    Code:
+       0: new           #48                 // class java/io/BufferedReader
+       3: dup
+       4: new           #49                 // class java/io/InputStreamReader
+       7: dup
+       8: getstatic     #50                 // Field java/lang/System.in:Ljava/io/InputStream;
+      11: invokespecial #51                 // Method java/io/InputStreamReader."<init>":(Ljava/io/InputStream;)V
+      14: invokespecial #52                 // Method java/io/BufferedReader."<init>":(Ljava/io/Reader;)V
+      17: putstatic     #5                  // Field br:Ljava/io/BufferedReader;
+      20: return
+}
