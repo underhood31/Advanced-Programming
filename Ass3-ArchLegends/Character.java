@@ -3,6 +3,7 @@ package ArchLegends;
 abstract class Character{
     protected float HP;
     private boolean isAlive;
+    protected float maxHP;
     Character(){
         isAlive=true;
     }
@@ -16,15 +17,16 @@ abstract class Character{
             isAlive=false;
         }
     }
-
-    public void takeAttack(float attackValue){
-        mutateHP(-1*attackValue);
-        
+    protected void setAlive(){
+        isAlive=true;
     }
+
+
+  
     public boolean getLifeStatus(){
+        if(this.HP<=0)
+            this.isAlive=false;
         return this.isAlive;
     }
 
-    public abstract float attack();
-    public abstract int specialAttack();
 }

@@ -1,18 +1,19 @@
 package ArchLegends;
 
 class Warrior extends Hero{
-    private final String splPower = "Attack and defense attributes get boosted by 5 for the next 3 moves";
+    private final String splPower = "Attack and defence attributes get boosted by 5 for the next 3 moves";
     
-    Warrior(){
-        attackVal=10;
-        defenceVal=3;
+    Warrior(String uname){
+        super(uname,10,3);
+       
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
     @Override
-    public int specialAttack() {
+    public int specialAttack(Monster monster) {
+        System.out.println(splPower);
         if(specialMoves==0){
-            this.specialMoves=3;
+            this.specialMoves=4;
             return 0;
         }    
         else{
@@ -22,22 +23,36 @@ class Warrior extends Hero{
     }
     
     @Override
-    public float attack() {
+    public float attack(Monster opponent) {
         if (specialMoves>0) {
-            return super.attack() + 5;    
-            --specialMoves;    
+            return super.attack(opponent) + 5;    
         }
-        return super.attack();
+        
+        return super.attack(opponent);
     }
     @Override
-    public void takeAttack(float attackValue) {
+    public void defend(float attackValue, Monster opponent) {
         if (specialMoves>0) {
-            super.takeAttack(attackValue-5);
+            float damage =attackValue-5;
+            if(damage<0){
+                damage=0;
+            }
+            System.out.println("Attack value is reduced from "+attackValue +" to "+damage+" because of special power");
+            
+            super.defend(damage,opponent);
+        }
+        else{
+            super.defend(attackValue,opponent);
+        }
+        
+    }
+    @Override
+    public void takeAttack(float attackValue, Monster opponent) {
+        if(specialMoves>0){
             --specialMoves;
         }
-        super.takeAttack(attackValue);
+        super.takeAttack(attackValue,opponent);
     }
-    
 
 }
 
@@ -45,16 +60,17 @@ class Mage extends Hero{
     
     private final String splPower = "Cast a spell which reduces the opponent's HP by 5% for the next 3 moves";
     
-    Mage(){
-        attackVal=5;
-        defenceVal=5;
+    Mage(String uname){
+        super(uname,5,5);
+
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
     @Override
-    public int specialAttack() {
+    public int specialAttack(Monster monster) {
+        System.out.println(splPower);
         if(specialMoves==0){
-            this.specialMoves=3;
+            this.specialMoves=4;
             return 0;
         }    
         else{
@@ -67,35 +83,45 @@ class Mage extends Hero{
     public float attack(Monster opponent) {
         float change =0;
         if (specialMoves>0) {
-            change = 0.05*opponent.getHP();
-            --specialMoves;    
+            change = (float)(0.05*opponent.getHP());
+            System.out.println("Special power, Extra damage added: "+ change);
         }
-        return super.attack() + change;
+        return super.attack(opponent) + change;
     }
     @Override
     public void takeAttack(float attackValue, Monster opponent) {
         if (specialMoves>0) {
-            opponent.mutateHP(-0.05*opponent.getHP());
+            
             --specialMoves;
         }
-        super.takeAttack(attackValue);
+        super.takeAttack(attackValue,opponent);
+    }
+    @Override
+    public void defend(float attackValue, Monster opponent) {
+        if (specialMoves>0) {
+            float change = (float)(0.05*opponent.getHP());
+            opponent.mutateHP(-1*change);
+            System.out.println("Special power, Extra damage added: "+ change);
+        }
+        super.defend(attackValue, opponent);
     }
 }
 
-class Theif extends Hero{
+class Thief extends Hero{
     private final String splPower = "Steal 30% of opponents HP";
-    Theif(){
-        attackVal=6;
-        defenceVal=4;
+    Thief(String uname){
+        super(uname,6,4);
+     
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
     @Override
     public int specialAttack(Monster opponent) {
+        System.out.println(splPower);
         if(specialMoves==0){
-            this.specialMoves=3;
-            this.mutateHP(0.3*opponent.getHP());
-            opponent.mutateHP(-0.3*opponent.getHP());
+            this.specialMoves=4;
+            this.mutateHP((float)(0.3*opponent.getHP()));
+            opponent.mutateHP((float)(-0.3*opponent.getHP()));
             return 0;
         }    
         else{
@@ -103,34 +129,29 @@ class Theif extends Hero{
         }
 
     }
+    
     @Override
-    public float attack() {
-        if (specialMoves>0) {
-            --specialMoves;    
-        }
-        return super.attack();
-    }
-    @Override
-    public void takeAttack(float attackValue) {
+    public void takeAttack(float attackValue, Monster opponent) {
         if (specialMoves>0) {
             --specialMoves;
         }
-        super.takeAttack(attackValue);
+        super.takeAttack(attackValue,opponent);
     }
+    
 }
 
 class Healer extends Hero{
     private final String splPower = "Increase own HP by 5% for the next 3 moves";
-    Healer(){
-        attackVal=4;
-        defenceVal=8;
+    Healer(String uname){
+        super(uname,4,8);
         baseAttack = attackVal + level - 1;
         baseDefence = defenceVal + level - 1;
     }
     @Override
-    public int specialAttack() {
+    public int specialAttack(Monster monster) {
+        System.out.println(splPower);
         if(specialMoves==0){
-            this.specialMoves=3;
+            this.specialMoves=4;
             return 0;
         }    
         else{
@@ -140,19 +161,24 @@ class Healer extends Hero{
     }
 
     @Override
-    public float attack() {
+    public float attack(Monster opponent) {
         if (specialMoves>0) {
-            this.mutateHP(0.05*this.getHP());
-            --specialMoves;    
+            this.mutateHP((float)(0.05*this.getHP()));
         }
-        return super.attack();
+        return super.attack(opponent);
     }
     @Override
-    public void takeAttack(float attackValue) {
+    public void takeAttack(float attackValue,Monster opponent) {
         if (specialMoves>0) {
-            this.mutateHP(0.05*this.getHP());
+            this.mutateHP((float)(0.05*this.getHP()));
             --specialMoves;
         }
-        super.takeAttack(attackValue);
+        super.takeAttack(attackValue,opponent);
+    }
+    public void defend(float attackValue, Monster opponent) {
+        if (specialMoves>0) {
+            this.mutateHP((float)(0.05*this.getHP()));
+        }
+        super.defend(attackValue, opponent);
     }
 }

@@ -1,14 +1,13 @@
 package ArchLegends;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 
 
 public class Main{
-    staic void printMainMenu(){
+    static void printMainMenu(){
         System.out.println("Choose your option:");
         System.out.println("1) New User");
-        System.out.println("2) Exit User");
+        System.out.println("2) Existing User");
         System.out.println("3) Exit");
     }
     public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,11 +20,12 @@ public class Main{
             printMainMenu();        
             s = br.readLine().trim().split("\\s+");
             int choice = Integer.parseInt(s[0]);
-            switch choice{
+            String uname;
+            switch (choice){
                 case 1:
                     System.out.println("Enter username: ");
                     s = br.readLine().trim().split("\\s+");
-                    String uname = s[0];
+                    uname = s[0];
                     
                     System.out.println("Choose a hero: ");
                     System.out.println("1) Warrior");
@@ -40,7 +40,7 @@ public class Main{
                 case 2:
                     System.out.print("Enter username: ");
                     s = br.readLine().trim().split("\\s+");
-                    String uname = s[0];
+                    uname = s[0];
                     game.playGame(uname);
                     break;
                 case 3:

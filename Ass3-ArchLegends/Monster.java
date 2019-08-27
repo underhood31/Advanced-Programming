@@ -4,9 +4,27 @@ import java.math.*;
 class Monster extends Character{
     protected final int levelToAffect;
     protected final float MAX_HP;
-    @Override
-    public int attack() {
+  
+    Monster(int l,float hp){
+        levelToAffect = l;
+        MAX_HP = hp;
+    }
+    public float attack(float oh) {
         Random distribution = new Random();
-        return Math.abs((int)distribution.nextGaussian()+this.HP/8);
+        return (int)Math.abs(distribution.nextGaussian()*this.HP/8+this.HP/8);
+    }
+    public void revive(){
+        this.setAlive();
+        this.HP = MAX_HP;
+    }
+    public void takeAttack(float attackValue) {
+        System.out.println("You attacked, and inflicted "+attackValue+" damage to the monster");
+        this.mutateHP(-1*attackValue);
+    }
+    public float getMaxHp(){
+        return MAX_HP;
+    }
+    public int getLevel(){
+        return levelToAffect;
     }
 }
