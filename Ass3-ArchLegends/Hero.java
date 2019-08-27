@@ -57,7 +57,7 @@ class Route{
             return this.moveBackward();
 
         }
-        else{
+        else if(route[3*pos+1]!=null && route[3*pos+2]!=null && route[3*pos+3]!=null){
             Location smallest;
             if (route[3*pos+1].getMonster().getLevel() <= route[3*pos+2].getMonster().getLevel() && route[3*pos+1].getMonster().getLevel() <= route[3*pos+3].getMonster().getLevel()) {
                 smallest = route[3*pos+1];

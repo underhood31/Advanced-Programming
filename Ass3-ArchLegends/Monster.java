@@ -11,7 +11,7 @@ class Monster extends Character{
     }
     public float attack(float oh) {
         Random distribution = new Random();
-        return (int)Math.abs(distribution.nextGaussian()*this.HP/8+this.HP/8);
+        return (int)Math.abs(distribution.nextGaussian()*this.HP/16+this.HP/8);
     }
     public void revive(){
         this.setAlive();

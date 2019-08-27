@@ -44,7 +44,7 @@ public class Main{
                     game.playGame(uname);
                     break;
                 case 3:
-                    System.out.println("May coward get blessed!\nGoodbye");
+                    System.out.println("May the coward get blessed!\nGoodbye");
                     toContinue=false;
                     break;
                 default:
