@@ -10,8 +10,8 @@ class Student{
     private static int placedStudents=0;
     private static int unplacedStudents=0;
     private float cgpa;
-    private String branch;
-    private int rollno;
+    final private String branch;
+    final private int rollno;
     private Hashtable<String,Float> technicalMarks = new Hashtable<String,Float>(); 
     private boolean placed;
     private String companyEnrolled;
@@ -108,9 +108,9 @@ class Student{
 
 }
 class TechnicalMarks{
-    private int rollNo;
-    private float marks;
-    private float cgpa;
+    final private int rollNo;
+    final private float marks;
+    final private float cgpa;
 
     TechnicalMarks(int rno, float marks, float cgpa){
         this.rollNo = rno;
@@ -153,7 +153,7 @@ class SortbyMarks implements Comparator<TechnicalMarks>
 class Company{
     private static int count =0;
 
-    private String name;
+    final private String name;
     private String[] courseCriterion;
     private int numStudents;
     private boolean applicationOpen;

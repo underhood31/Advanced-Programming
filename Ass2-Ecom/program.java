@@ -9,7 +9,7 @@ interface AppUser{
 class Merchant implements AppUser{
     private static int IDCOUNT=1;
     private String name;
-    private int id;
+    final private int id;
     private String address;
     private float totalContribution;
     private float money;
@@ -195,7 +195,7 @@ class Merchant implements AppUser{
 class Costumer implements AppUser{
     public static int IDCOUNT=0;    
     private String name;
-    private int id;
+    final private int id;
     private String address;
     private int numOfOrders;
     private LinkedList<Item> orders;
@@ -352,7 +352,7 @@ class Item{
     private static int IDCOUNT=1;
     private static Hashtable<String, ArrayList<Item>> categories = new Hashtable<String, ArrayList<Item>>();
     private String name;
-    private int id;
+    final private int id;
     private String category;
     private int quantity;
     private float price;
@@ -443,9 +443,9 @@ class Item{
     public float getPrice(){
         return this.price;
     }
-    public void setID(int ID){
-        this.id=ID;
-    }
+    // public void setID(int ID){
+    //     this.id=ID;
+    // }
     public void setQuantity(int q){
         this.quantity = q;
     }
