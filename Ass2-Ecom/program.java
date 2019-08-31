@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.*;
 interface AppUser{
-    public void diplayDetails();
+    public void displayDetails();
     public void showMenu() throws IOException;
 
 }
 
 class Merchant implements AppUser{
-    private static int IDCOUNT=1;
+    private static int IDCOUNT=0;
     private String name;
     final private int id;
     private String address;
@@ -42,7 +42,7 @@ class Merchant implements AppUser{
         try {
 
             Item itm=items.get(itemID);
-            if(itm.getQuantity()<quantity||(itm.getQuantity()<quantity*2&&itm.getOffer()==1)){
+            if(itm.getQuantity()<quantity||(itm.getQuantity()<quantity*2&&itm.getOffer()==1&&quantity!=1)){
                 System.out.println("Quantity not available");
                 return false;
             }
@@ -50,7 +50,7 @@ class Merchant implements AppUser{
             if (itm.getOffer()==2){
                 prc-=(0.25*prc);
             }
-            else if (itm.getOffer()==1){
+            else if (itm.getOffer()==1&&itm.getQuantity()!=1){
                 quantity*=2;
             }
             this.money += prc-0.005*prc;
@@ -70,7 +70,7 @@ class Merchant implements AppUser{
         }
         
     }
-    public void addOffer(int itemID, int offer){
+    private void addOffer(int itemID, int offer){
         try {
             Item temp = items.get(itemID);            
             temp.setOffer(offer);
@@ -79,7 +79,7 @@ class Merchant implements AppUser{
             System.out.println("Error: Invalid input");
         } 
     }
-    public void editItem(int itemID, int quantity, float price){
+    private void editItem(int itemID, int quantity, float price){
         try {
             Item temp = items.get(itemID);            
             temp.setPrice(price);
@@ -92,12 +92,15 @@ class Merchant implements AppUser{
     public String getName(){
         return this.name;
     }
-    @Override
-    public String toString() {
-        return "[ID: "+ Integer.toString(this.id) + " Name: "+this.name+" Addr: "+this.address+"\nContributions: "+Float.toString(this.totalContribution)+" ";
+    public float getContribution(){
+        return this.totalContribution;
     }
     @Override
-    public void diplayDetails(){
+    public String toString() {
+        return "[ID: "+ Integer.toString(this.id) + " Name: "+this.name+" Addr: "+this.address+"\nContributions: "+Float.toString(this.totalContribution)+" Profit: "+this.money+"]";
+    }
+    @Override
+    public void displayDetails(){
         System.out.println(this);
     }
     @Override
@@ -213,14 +216,14 @@ class Costumer implements AppUser{
         this.cart = new Stack<Item>();
         this.cartq = new Stack<Integer>();
     }
-    public void addToCart(Item item,int quantity){
+    private void addToCart(Item item,int quantity){
         cart.push(item);
         cartq.push(quantity);
     }
     public String getName(){
         return this.name;
     }
-    public void checkout(){
+    private void checkout(){
         while(!cart.isEmpty()){
             Item temp = cart.peek();
             float billAmount = temp.getPrice()+(float)(0.005*temp.getPrice());
@@ -230,6 +233,7 @@ class Costumer implements AppUser{
             }
             else if(billAmount>mainAccount){
                 
+
                 rewardAccount=temp.getPrice()-mainAccount;
                 mainAccount=0;
                 temp.getMerchant().buyItem(temp.getID(),cartq.pop());
@@ -254,7 +258,7 @@ class Costumer implements AppUser{
         }
     }
  
-    public void listRecentOrders(){
+    private void listRecentOrders(){
         System.out.println("Order History:");
         for(int i =0;i<10 && i<orders.size();++i){
             System.out.println(orders.get(i).getName());
@@ -262,10 +266,10 @@ class Costumer implements AppUser{
     }
     @Override
     public String toString() {
-        return "[ID: "+ Integer.toString(this.id) + " Name: "+this.name+" Addr: "+this.address+" Number of orders: "+Integer.toString(this.numOfOrders);
+        return "[ID: "+ Integer.toString(this.id) + " Name: "+this.name+" Addr: "+this.address+" Number of orders: "+Integer.toString(this.numOfOrders)+" Money: "+this.mainAccount+" Reward: "+this.rewardAccount+"]";
     }
     @Override
-    public void diplayDetails(){
+    public void displayDetails(){
         System.out.println(this);
     }
     @Override
@@ -307,7 +311,20 @@ class Costumer implements AppUser{
                     int method= Integer.parseInt(s[0]);
                     switch (method){
                         case 1:
-                            boolean success=toBuy.getMerchant().buyItem(buyID, qToBuy);
+                            
+                        if(toBuy.getPrice()>this.mainAccount+this.rewardAccount){
+                            System.out.println("Insufficient balance");
+                            break;
+                        }
+                        else if(toBuy.getPrice()>=mainAccount){
+                           rewardAccount=toBuy.getPrice()-mainAccount;
+                            mainAccount=0;
+                        }
+                        else{
+                            mainAccount-=toBuy.getPrice();
+                        }
+                        boolean success=toBuy.getMerchant().buyItem(buyID, qToBuy);
+                            
                             if (success){
                                 ++this.numOfOrders;
                                 this.orders.push(toBuy);
@@ -349,7 +366,7 @@ class Costumer implements AppUser{
 
 
 class Item{
-    private static int IDCOUNT=1;
+    private static int IDCOUNT=0;
     private static Hashtable<String, ArrayList<Item>> categories = new Hashtable<String, ArrayList<Item>>();
     private String name;
     final private int id;
@@ -472,12 +489,15 @@ public class program{
         System.out.println("HOME");
         System.out.println("1. Enter as merchant");
         System.out.println("2. Enter as Customer");
-        System.out.println("3. See user details");
+        System.out.println("3. See user details (Format: 3 <User type M/C> <UserID>");
         System.out.println("4. Company account Balance");
         System.out.println("5. Exit");
     }
     private static void executeMenu(AppUser au) throws IOException{
         au.showMenu();
+    }
+    private static void details(AppUser au){
+        au.displayDetails();
     }
     public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws IOException {
@@ -523,8 +543,27 @@ public class program{
                     executeMenu(costumers.get(choice-1));
                     break;
                 case 3:
+                    
+                    String tag = s[1];
+                    int detID = Integer.parseInt(s[2]);
+                    if(tag.equals("M") ){
+                        details(merchants.get(detID-1));
+                    }
+                    else if (tag.equals("C")){
+                        details(costumers.get(detID-1));
+                    }
                     break;
                 case 4:
+                    float balance=0;
+                    try {
+                        for (Merchant var : merchants) {
+                            balance+=var.getContribution();
+                        }
+                        System.out.println("Company account balance: "+ balance);
+                            
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 5:
                     System.out.println("Goodbye");
