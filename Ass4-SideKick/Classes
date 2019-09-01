@@ -1,0 +1,12 @@
+Game:
+    exit
+
+Hero(from username)
+    Inherited type of heros
+Monster
+    inherited type of monsters
+
+    
+
+FEATURES
+    userchange
