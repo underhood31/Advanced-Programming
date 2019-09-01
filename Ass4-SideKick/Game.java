@@ -47,15 +47,16 @@ public class Game{
         Hero player = players.get(uname);
         System.out.println("User Found. Logged in as " + uname + ".You can enter -1 to exit");
         boolean exit =false;
+        int levelsFought=0;
         while(!exit){
             if(player.getPos()==0){
                 System.out.println("You are at initial position");
             }
             System.out.println("Choose an option:");
             System.out.println("1) Go Forward");
-            if(player.getPos()!=0 && player.getPos()!=1)
+            if(player.getPos()!=0 && player.getPos()!=1&& levelsFought>1)
                 System.out.println("2) Go Backward");
-
+            ++levelsFought;
             int choice=Integer.parseInt(Main.br.readLine().trim().split("\\s+")[0]);
 
             switch (choice){

@@ -189,6 +189,8 @@ class Hero extends Character{
     public int  moveForward() throws IOException{
         if(XP>=5)
             this.addSidekick();
+        selectLevel();
+        updateHP();
         this.removeDead(sidekicks);
         sidekicks.sort(new SortbyXP());
         Monster mons = route.moveForward();
@@ -200,8 +202,7 @@ class Hero extends Character{
             return 0;
         }
         else{
-            selectLevel();
-            updateHP();
+            
             if(mons.levelToAffect==4){
                 System.out.println("You won!!");
                 this.route.setToInitial();
@@ -211,10 +212,12 @@ class Hero extends Character{
             }
             return 0;
         }
-    }
+    } 
     public void moveBackward() throws IOException{
         if(XP>=5)
             this.addSidekick();
+        selectLevel();
+        updateHP();        
         this.removeDead(sidekicks);
         sidekicks.sort(new SortbyXP());
         int result = fight(route.moveBackward());
@@ -225,7 +228,6 @@ class Hero extends Character{
             updateHP();
         }
         else{
-            selectLevel();
             updateHP();
         }
     }
@@ -303,11 +305,11 @@ class Hero extends Character{
                     System.out.println("You choose to Defend!");
                     System.out.println("Monster attack!!!");
                     float monAttackD = monster.attack(this.getHP()); 
-                    
-                    if(monster.getLevel()==2 && helpers.get(0).getType()==2){
-                        System.out.println("Zombie's attacks reduced by 5 units because of knight");
-                        monAttackD-=5;
-                    }                        
+                    if(helpers.size()>0)
+                        if(monster.getLevel()==2 && helpers.get(0).getType()==2){
+                            System.out.println("Zombie's attacks reduced by 5 units because of knight");
+                            monAttackD-=5;
+                        }                        
                     this.defend(monAttackD,monster);
                     System.out.println("Your HP: "+this.getHP()+"/"+this.maxHP+" ;Monster's HP: "+monster.getHP()+"/"+monster.getMaxHp());
                     for (Sidekick var : helpers) {
@@ -342,6 +344,7 @@ class Hero extends Character{
         }
         if(!this.getLifeStatus()){
             System.out.println("You died, game restart");
+            sidekicks.clear();
             return -1;
         }
         return 1;

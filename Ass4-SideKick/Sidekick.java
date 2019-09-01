@@ -14,7 +14,7 @@ class Sidekick extends Character{
         HP=100;
         canUsePower=true;
         this.type=type;
-    }
+    } 
     public float attack(){
         System.out.println("Sidekick attacked and infliceted "+(baseAttack+extraAttack+(int)(XP/5))+" to the monster.");
         return baseAttack+extraAttack+(int)(XP/5);
@@ -54,6 +54,16 @@ class Sidekick extends Character{
             return null;
         }
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj!=null && this.getClass()==obj.getClass()) {
+            Sidekick o=(Sidekick)(obj);
+            return((this.XP==o.getXP())&&(this.attackDamage()==o.attackDamage())&&(this.type==o.getType()));
+            
+        } else {
+            return false;
+        }
+    }
  
 }
 class SortbyXP implements Comparator<Sidekick> 
@@ -66,8 +76,10 @@ class SortbyXP implements Comparator<Sidekick>
         } 
         else if(a.getXP()<b.getXP()){
             return -1;
+        }else if(a.equals(b)){
+            return 1;
         }
-        
         return -1;
+        
     } 
 }
