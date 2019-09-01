@@ -72,10 +72,10 @@ class SortbyXP implements Comparator<Sidekick>
     public int compare(Sidekick a, Sidekick b) 
     { 
         if(a.getXP()>b.getXP()){
-            return 1;
+            return -11;
         } 
         else if(a.getXP()<b.getXP()){
-            return -1;
+            return 1;
         }else if(a.equals(b)){
             return 1;
         }
