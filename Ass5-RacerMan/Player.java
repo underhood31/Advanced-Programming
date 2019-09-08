@@ -1,9 +1,9 @@
 package RacerMan;
 
-class Player(){
+class Player{
     private final String name;
     private int position;
-    Player(name){
+    Player(String name){
         this.name=name;
         this.position=1;
     }

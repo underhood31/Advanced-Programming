@@ -18,7 +18,7 @@ class Track{
     private final Tile WhiteTile;
     
     Track(int totalTiles){
-        System.out.println("Setting up race track...")
+        System.out.println("Setting up race track...");
         this.totalTiles=totalTiles;
         TileOnRoute=new HashMap<>();
         //0-3 types 4-11 white
@@ -38,15 +38,15 @@ class Track{
                         break;
                     case 1:
                         TileOnRoute.put(i,vultureTile);
-                        ++vultures
+                        ++vultures;
                         break;
                     case 2:
                         TileOnRoute.put(i,cricketTile);
-                        ++crickets
+                        ++crickets;
                         break;
                     case 3:
-                        TileOnRoute.put(i,trampoleneTile)
-                        ++trampolenes
+                        TileOnRoute.put(i,trampoleneTile);
+                        ++trampolenes;
                         break;
                 
                 }
@@ -65,8 +65,8 @@ class Track{
     }
 
     @Override
-    pubic String toString(){
-        String retString=""
+    public String toString(){
+        String retString="";
         retString+=("[Danger] There are "+ Integer.toString(snakes)+", "+Integer.toString(vultures)+" and "+Integer.toString(crickets)+" snakes, vultures and crickets respectively.\n");
         retString+=("[Danger] Each snake, vulture and cricket can move make change of "+Integer.toString(snakeTile.getMoveTiles())+", "+Integer.toString(vultureTile.getMoveTiles())+"and "+Integer.toString(cricketTile.getMoveTiles())+" respectively to your current position.\n");
         retString+=("[Good News] There are "+Integer.toString(trampolenes)+" trampolene tiles");                

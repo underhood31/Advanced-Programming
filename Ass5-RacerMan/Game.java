@@ -29,7 +29,7 @@ class Game{
                 }
                 else if(roll==6){
                     inCage=false;
-                    System.out.print(",  You are out of the cage! You get a free roll")
+                    System.out.print(",  You are out of the cage! You get a free roll");
                 }
             }
             if(!inCage){
@@ -41,8 +41,8 @@ class Game{
                     currentTile.shake();
                 } 
                 catch (TileExceptions e) {
-                    System.out.println(e.getMessage())
-                    this.movePlayer(currentTile.getMoveTiles())
+                    System.out.println(e.getMessage());
+                    this.movePlayer(currentTile.getMoveTiles());
                     String ty =currentTile.getClass().toString();
                     if(ty.equals("Snake")){
                         ++snakeBites;
@@ -68,7 +68,7 @@ class Game{
             }
         }
     }
-    private movePlayer(int roll){
+    private void movePlayer(int roll){
         if(roll+player.getPosition()>totalTiles){
             throw new GameWinnerException(player.getName()+ " Won!!!");
         }

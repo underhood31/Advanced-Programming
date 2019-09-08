@@ -12,7 +12,7 @@ class Snake extends Tile{
     
     @Override
     public void shake() {
-        throw new SnakeBiteException("sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles()");
+        throw new SnakeBiteException(sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles());
     }
 }
 class Vulture extends Tile{
@@ -24,7 +24,7 @@ class Vulture extends Tile{
 
     @Override
     public void shake() {
-        throw new VultureBiteException("sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles()");
+        throw new VultureBiteException(sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles());
     }
 }
 class Cricket extends Tile{
@@ -36,7 +36,7 @@ class Cricket extends Tile{
    
     @Override
     public void shake() {
-        throw new CricketBiteException("sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles()");
+        throw new CricketBiteException(sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles());
     }
 }
 class Trampolene extends Tile{
@@ -48,7 +48,7 @@ class Trampolene extends Tile{
 
     @Override
     public void shake() {
-        throw new TrampoleneException("sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles()");
+        throw new TrampoleneException(sound+"... "+"You stepped upon a "+type+" position will change by "+this.getMoveTiles());
     }
 }
 class White extends Tile{
