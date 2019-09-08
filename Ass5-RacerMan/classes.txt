@@ -1,0 +1,21 @@
+abstract class tile
+        snake
+        vulture
+        cricket
+        white
+        trampolene
+
+Exceptions
+        SnakeBiteExcaption
+        CrickeyBiteExcaption
+        VultureBiteExcaption
+        TrampoleneException
+        GameWinnerException
+        
+Player
+Game
+Dice
+Track
+
+Maybe:
+        Iterfarence for making Exceptions
