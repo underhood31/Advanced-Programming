@@ -1,3 +1,4 @@
+package RacerMan;
 class Game{
     private final Player player;
     private final Track track;
@@ -10,16 +11,17 @@ class Game{
     Game(String name, int totalTiles){
         player = new Player(name);
         track = new Track(totalTiles);
+        System.out.println(track);
         this.totalTiles = totalTiles;
     }
-    public void StartGame(){
+    public void startGame() throws Exception{
         System.out.println("Starting game with "+ player.getName()+" at Tile 1");
         System.out.println("Hit [ENTER] to start the game");
         System.in.read();
         System.out.println("GAME STARTED =============>");
         int rollNo=0;
         boolean inCage=true;
-        while(player.getPosition()>totalTiles){
+        while(true){
             ++rollNo;
             int roll = Dice.roll(6);
             if(inCage){
@@ -37,23 +39,34 @@ class Game{
                 
                 try {
                     this.movePlayer(roll);
-                    Tile currentTile=Track.getTile(player.getPosition());
+                    Tile currentTile=track.getTile(player.getPosition());
                     currentTile.shake();
                 } 
                 catch (TileExceptions e) {
+                    Tile currentTile=track.getTile(player.getPosition());
                     System.out.println(e.getMessage());
-                    this.movePlayer(currentTile.getMoveTiles());
+                    try {
+                        this.movePlayer(currentTile.getMoveTiles());
+                        
+                    } catch (GameWinnerException f) {
+                        System.out.println(player.getName()+" won the race in "+Integer.toString(rollNo)+" rolls!");
+                        System.out.println("Total Snake Bits "+Integer.toString(snakeBites));
+                        System.out.println("Total Vulture Bits "+Integer.toString(vultureBites));
+                        System.out.println("Total Cricket Bits "+Integer.toString(cricketBites));
+                        System.out.println("Total Trampolenes "+Integer.toString(trampolenes));
+                        break;
+                    }
                     String ty =currentTile.getClass().toString();
-                    if(ty.equals("Snake")){
+                    if(currentTile.getClass()==(new Snake(1)).getClass()){
                         ++snakeBites;
                     }
-                    else if(ty.equals("Vulture")){
+                    else if(currentTile.getClass()==(new Vulture(1)).getClass()){
                         ++vultureBites;
                     }
-                    else if(ty.equals("Cricket")){
+                    else if(currentTile.getClass()==(new Cricket(1)).getClass()){
                         ++cricketBites;
                     }
-                    else if(ty.equals("Trampolene")){
+                    else if(currentTile.getClass()==(new Trampolene(1)).getClass()){
                         ++trampolenes;
                     }
 
@@ -64,12 +77,15 @@ class Game{
                     System.out.println("Total Vulture Bits "+Integer.toString(vultureBites));
                     System.out.println("Total Cricket Bits "+Integer.toString(cricketBites));
                     System.out.println("Total Trampolenes "+Integer.toString(trampolenes));
+                    break;
                 }
             }
         }
     }
     private void movePlayer(int roll){
         if(roll+player.getPosition()>totalTiles){
+            player.setPosition(player.getPosition()+roll);
+            System.out.println(": Landed on tile "+ player.getPosition()+"\n");
             throw new GameWinnerException(player.getName()+ " Won!!!");
         }
         else if(roll+player.getPosition()<1){

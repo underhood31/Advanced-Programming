@@ -1,3 +1,5 @@
+package RacerMan;
+
 import java.util.Random;
 
 class Dice{

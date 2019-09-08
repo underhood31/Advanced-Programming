@@ -68,8 +68,9 @@ class Track{
     public String toString(){
         String retString="";
         retString+=("[Danger] There are "+ Integer.toString(snakes)+", "+Integer.toString(vultures)+" and "+Integer.toString(crickets)+" snakes, vultures and crickets respectively.\n");
-        retString+=("[Danger] Each snake, vulture and cricket can move make change of "+Integer.toString(snakeTile.getMoveTiles())+", "+Integer.toString(vultureTile.getMoveTiles())+"and "+Integer.toString(cricketTile.getMoveTiles())+" respectively to your current position.\n");
-        retString+=("[Good News] There are "+Integer.toString(trampolenes)+" trampolene tiles");                
-        retString+=("[Good News] Each trampolene tile will make a change of"+Integer.toString(trampoleneTile.getMoveTiles())+" to your current position");
+        retString+=("[Danger] Each snake, vulture and cricket can move make change of "+Integer.toString(snakeTile.getMoveTiles())+", "+Integer.toString(vultureTile.getMoveTiles())+" and "+Integer.toString(cricketTile.getMoveTiles())+" respectively to your current position.\n");
+        retString+=("[Good News] There are "+Integer.toString(trampolenes)+" trampolene tiles\n");                
+        retString+=("[Good News] Each trampolene tile will make a change of "+Integer.toString(trampoleneTile.getMoveTiles())+" to your current position");
+        return retString;
     }   
 }
