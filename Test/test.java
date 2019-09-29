@@ -1,25 +1,28 @@
-class a{
-    protected int a1;
-    a(){
-        a1=6;
-    }
-    public int ret(){
-        return a1;
-    }
-}
-class b extends a{
-    protected int b1;
-    b(){
-        b=a+4;
-    }
-    @Override
-    public int ret() {
-        return b;
+import java.io.*;
+import java.util.Scanner;
+class Manager implements Serializable {
+    private String name;
+    public Manager(String n) {
+        name=n;
     }
 }
-class test{
+   
+public class test{
     public static void main(String[] args) {
-        a c = new b();
-        System.out.print(c.ret());
+        
+        try{
+            Manager m = new Manager("Amy");
+            ObjectOutputStream out = null;
+            try{
+                out = new ObjectOutputStream(new FileOutputStream("ouf"));
+                out.writeObject(m);
+            }finally{
+                out.close();
+            }
+        }
+        catch(IOException e){
+            System.out.println("The following IOException occured"+e.toString()+"\n"+e.getMessage());
+        }
     }
+
 }
