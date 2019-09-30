@@ -1,4 +1,4 @@
-package RacerMan;
+
 
 import java.io.*;
 
@@ -40,7 +40,7 @@ class Main{
             }
         }
         else{
-            game = new Game(uname, len);
+            game = new Game(uname, len,true,new TileExceptions(" "));
         }
         if (game!=null)
             game.startGame();
@@ -51,7 +51,8 @@ class Main{
             get = new ObjectInputStream(new FileInputStream(uname+".bin"));
             return (Game)get.readObject();
         }finally{
-
+        		if(get!=null)
+        	get.close();
         }
 
     }
