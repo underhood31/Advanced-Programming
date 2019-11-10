@@ -1,0 +1,9 @@
+<number>         ==> no output
+<number> true    ==> current output
+pending          ==> pending queue
+-1               ==> exit
+
+
+FlyWeight used in Fibonacci
+Facade used in Main and Handler
+Handler class is the observer
